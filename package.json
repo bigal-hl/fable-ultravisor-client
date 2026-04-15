@@ -1,0 +1,50 @@
+{
+	"name": "fable-ultravisor-client",
+	"version": "0.0.1",
+	"description": "HTTP client for the Ultravisor beacon coordinator — authentication, work-item dispatch (JSON and binary-framed streaming), and operation triggering.",
+	"main": "source/Fable-UltravisorClient.js",
+	"scripts": {
+		"start": "node source/Fable-UltravisorClient.js",
+		"coverage": "npx quack coverage",
+		"test": "npx mocha -u tdd --exit --timeout 15000 test/*_tests.js",
+		"build": "npx quack build"
+	},
+	"mocha": {
+		"diff": true,
+		"extension": [
+			"js"
+		],
+		"package": "./package.json",
+		"reporter": "spec",
+		"slow": "75",
+		"timeout": "15000",
+		"ui": "tdd",
+		"watch-files": [
+			"source/**/*.js",
+			"test/**/*.js"
+		]
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/stevenvelozo/fable-ultravisor-client.git"
+	},
+	"keywords": [
+		"ultravisor",
+		"beacon",
+		"fable",
+		"retold"
+	],
+	"author": "Steven Velozo <steven@velozo.com> (http://velozo.com/)",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/stevenvelozo/fable-ultravisor-client/issues"
+	},
+	"homepage": "https://github.com/stevenvelozo/fable-ultravisor-client",
+	"devDependencies": {
+		"chai": "^4.3.10",
+		"mocha": "^10.2.0"
+	},
+	"dependencies": {
+		"fable-serviceproviderbase": "^3.0.19"
+	}
+}
