@@ -1,6 +1,6 @@
 {
 	"name": "fable-ultravisor-client",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"description": "HTTP client for the Ultravisor beacon coordinator — authentication, work-item dispatch (JSON and binary-framed streaming), and operation triggering.",
 	"main": "source/Fable-UltravisorClient.js",
 	"scripts": {

@@ -153,6 +153,28 @@ class FableUltravisorClient extends libFableServiceProviderBase
 					return fCallback(new Error(`UltravisorClient: authentication failed: HTTP ${pResponse.statusCode}`));
 				}
 
+				// UV's orator-authentication returns HTTP 200 with body
+				// `{ LoggedIn: false, Error: 'Authentication failed.' }`
+				// when the credentials don't validate against the auth-
+				// beacon — and crucially does NOT send a Set-Cookie header
+				// in that case. If we only check statusCode we end up with
+				// a "successful" auth that left _SessionCookie=null, and
+				// every later dispatch goes out with no Cookie and gets
+				// 401'd by UV's _requireSession middleware. Parse the body
+				// and surface the real failure so callers can react instead
+				// of silently dispatching as anonymous.
+				let tmpParsedBody = null;
+				if (tmpData && tmpData.length > 0)
+				{
+					try { tmpParsedBody = JSON.parse(tmpData); }
+					catch (pParseError) { /* leave null — UV may have sent a non-JSON body */ }
+				}
+				if (tmpParsedBody && tmpParsedBody.LoggedIn === false)
+				{
+					let tmpReason = tmpParsedBody.Error || 'authentication rejected by UV (LoggedIn:false)';
+					return fCallback(new Error(`UltravisorClient: authentication failed for [${tmpSelf._UserName}]: ${tmpReason}`));
+				}
+
 				let tmpSetCookieHeaders = pResponse.headers['set-cookie'];
 				if (tmpSetCookieHeaders && tmpSetCookieHeaders.length > 0)
 				{
@@ -162,6 +184,14 @@ class FableUltravisorClient extends libFableServiceProviderBase
 					{
 						tmpSelf.log.info(`UltravisorClient: authenticated as [${tmpSelf._UserName}] against ${tmpSelf._UltravisorURL}`);
 					}
+				}
+				else
+				{
+					// HTTP 200 + no LoggedIn:false marker + no Set-Cookie
+					// is still a problem (we have no session to attach to
+					// future requests). Surface it as an error so the
+					// caller doesn't proceed thinking it's authenticated.
+					return fCallback(new Error(`UltravisorClient: authentication for [${tmpSelf._UserName}] returned no session cookie (body: ${tmpData.substring(0, 200)})`));
 				}
 
 				return fCallback(null);
