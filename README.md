@@ -1,5 +1,7 @@
 # fable-ultravisor-client
 
+> **[Read the fable-ultravisor-client Documentation](https://fable-retold.github.io/fable-ultravisor-client/)**
+
 Fable service that talks to an [Ultravisor](https://github.com/stevenvelozo/ultravisor) beacon coordinator over HTTP. Handles authentication, work-item dispatch (synchronous JSON and binary-framed streaming), and operation triggering.
 
 Part of the [retold](https://github.com/stevenvelozo/retold) ecosystem.
