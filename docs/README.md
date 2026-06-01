@@ -1,6 +1,6 @@
 # Fable Ultravisor Client
 
-An HTTP client for the [Ultravisor](https://github.com/stevenvelozo/ultravisor) beacon coordinator, packaged as a Fable service. It handles authentication, work-item dispatch (synchronous JSON and binary-framed streaming), and operation triggering, so a host application can hand work to a fleet of remote beacons without re-implementing the wire protocol.
+An HTTP client for the [Ultravisor](https://stevenvelozo.github.io/ultravisor/) beacon coordinator, packaged as a Fable service. It handles authentication, work-item dispatch (synchronous JSON and binary-framed streaming), and operation triggering, so a host application can hand work to a fleet of remote beacons without re-implementing the wire protocol.
 
 ## What It Does
 
